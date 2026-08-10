@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pedro's personal gaming website">
+  <title>Pedro | Gaming</title>
+
+  <style>
+    :root {
+      --bg: #07070d;
+      --bg2: #0e0e18;
+      --card: rgba(20, 20, 34, 0.78);
+      --text: #f5f5ff;
+      --muted: #a7a7bd;
+      --accent: #8b5cf6;
+      --accent2: #22d3ee;
+      --border: rgba(255,255,255,.1);
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(139,92,246,.16), transparent 30%),
+        radial-gradient(circle at 80% 20%, rgba(34,211,238,.10), transparent 28%),
+        var(--bg);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .08;
+      background-image:
+        linear-gradient(rgba(255,255,255,.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.15) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: linear-gradient(to bottom, black, transparent 80%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 18px 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(7,7,13,.72);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .logo span {
+      color: var(--accent2);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 25px;
+    }
+
+    nav a {
+      color: var(--muted);
+      font-weight: 700;
+      transition: .25s;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    .menu {
+      display: none;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    section {
+      width: min(1100px, 90%);
+      margin: auto;
+      padding: 100px 0;
+    }
+
+    #home {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding-top: 130px;
+    }
+
+    .hero {
+      max-width: 850px;
+    }
+
+    .tag {
+      display: inline-block;
+      color: var(--accent2);
+      background: rgba(34,211,238,.08);
+      border: 1px solid rgba(34,211,238,.2);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: .85rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(4rem, 12vw, 8rem);
+      line-height: .9;
+      font-weight: 1000;
+      letter-spacing: -6px;
+      text-transform: uppercase;
+      text-shadow: 0 0 35px rgba(139,92,246,.25);
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.15rem;
+      max-width: 650px;
+      margin: 28px auto;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 13px 22px;
+      border-radius: 10px;
+      font-weight: 800;
+      border: 1px solid var(--border);
+      background: var(--card);
+      transition: transform .25s, box-shadow .25s, background .25s;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(139,92,246,.2);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), #6d28d9);
+      border: none;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    .about {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .avatar {
+      height: 280px;
+      width: 280px;
+      border-radius: 25px;
+      display: grid;
+      place-items: center;
+      font-size: 7rem;
+      font-weight: 1000;
+      background: linear-gradient(135deg, rgba(139,92,246,.35), rgba(34,211,238,.12));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .about-text h3 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 15px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 25px;
+    }
+
+    .stat {
+      min-width: 130px;
+      padding: 15px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 12px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.4rem;
+      color: var(--accent2);
+    }
+
+    .stat small {
+      color: var(--muted);
+    }
+
+    .games {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .game {
+      min-height: 190px;
+      padding: 25px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background:
+        linear-gradient(145deg, rgba(139,92,246,.16), rgba(20,20,34,.9));
+      transition: .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game::after {
+      content: "🎮";
+      position: absolute;
+      right: -5px;
+      bottom: -25px;
+      font-size: 7rem;
+      opacity: .07;
+    }
+
+    .game:hover {
+      transform: translateY(-7px);
+      border-color: rgba(139,92,246,.45);
+    }
+
+    .game-icon {
+      font-size: 2.5rem;
+    }
+
+    .game h3 {
+      margin-top: 10px;
+      font-size: 1.3rem;
+    }
+
+    .game p {
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .gallery-item {
+      aspect-ratio: 16 / 10;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, #151525, #09090f);
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      cursor: pointer;
+      transition: .3s;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.02);
+      border-color: rgba(34,211,238,.4);
+    }
+
+    .gallery-item span {
+      font-size: 3rem;
+    }
+
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .social {
+      min-width: 150px;
+      padding: 18px 20px;
+      text-align: center;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      transition: .25s;
+      font-weight: 800;
+    }
+
+    .social:hover {
+      transform: translateY(-5px);
+      background: rgba(139,92,246,.15);
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    .top {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 45px;
+      height: 45px;
+      display: none;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(20,20,34,.9);
+      color: white;
+      cursor: pointer;
+      z-index: 500;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 800px) {
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+        flex-direction: column;
+        background: rgba(7,7,13,.96);
+        border-bottom: 1px solid var(--border);
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      .menu {
+        display: block;
+      }
+
+      .about {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .avatar {
+        margin: auto;
+      }
+
+      .stats {
+        justify-content: center;
+      }
+
+      .games,
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="#home" class="logo">PEDRO.<span>GG</span></a>
+
+    <button class="menu" id="menu">☰</button>
+
+    <ul id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About Me</a></li>
+      <li><a href="#games">Games</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#socials">Socials</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <section id="home">
+      <div class="hero reveal">
+        <div class="tag">🎮 WELCOME TO MY GAMING WORLD</div>
+        <h1>PEDRO<span>.</span></h1>
+        <p>
+          Gamer. Player. Creator. Welcome to my personal gaming website,
+          where I share the games I play, my favorite moments, and my gaming journey.
+        </p>
+
+        <div class="buttons">
+          <a class="btn primary" href="#games">Explore My Games</a>
+          <a class="btn" href="#about">About Me</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="reveal">
+      <div class="section-title">
+        <h2>About Me</h2>
+        <p>A little about the person behind the username.</p>
+      </div>
+
+      <div class="about">
+        <div class="avatar">P</div>
+
+        <div class="about-text">
+          <h3>Hey, I'm Pedro 👋</h3>
+          <p>
+            I'm a passionate gamer who enjoys discovering new games,
+            competing with friends, and having fun in the gaming community.
+          </p>
+          <p>
+            This website is my personal gaming space where I can share
+            my favorite games, screenshots, achievements, and social links.
+          </p>
+
+          <div class="stats">
+            <div class="stat">
+              <strong>🎮</strong>
+              <small>Gamer</small>
+            </div>
+            <div class="stat">
+              <strong>🔥</strong>
+              <small>Always Playing</small>
+            </div>
+            <div class="stat">
+              <strong>🏆</strong>
+              <small>Chasing Wins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="games" class="reveal">
+      <div class="section-title">
+        <h2>My Games</h2>
+        <p>Games currently in my rotation.</p>
+      </div>
+
+      <div class="games">
+        <article class="game">
+          <div class="game-icon">🔫</div>
+          <h3>Grand Theft Auto V</h3>
+          <p>FiveM, online adventures, custom servers and more.</p>
+        </article>
+
+        <article class="game">
+          <div class="game-icon">🧱</div>
+          <h3>Roblox</h3>
+          <p>Playing different experiences and experimenting with Roblox development.</p>
+        </article>
+
+        <article class="game">
+          <div class="game-icon">⚔️</div>
+          <h3>More Games</h3>
+          <p>Add your other favorite games here.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="gallery" class="reveal">
+      <div class="section-title">
+        <h2>Gallery</h2>
+        <p>Replace these placeholders with your gaming screenshots.</p>
+      </div>
+
+      <div class="gallery">
+        <div class="gallery-item" onclick="galleryMessage()">
+          <span>📸</span>
+        </div>
+
+        <div class="gallery-item" onclick="galleryMessage()">
+          <span>🎮</span>
+        </div>
+
+        <div class="gallery-item" onclick="galleryMessage()">
+          <span>🏆</span>
+        </div>
+
+        <div class="gallery-item" onclick="galleryMessage()">
+          <span>🔥</span>
+        </div>
+
+        <div class="gallery-item" onclick="galleryMessage()">
+          <span>🕹️</span>
+        </div>
+
+        <div class="gallery-item" onclick="galleryMessage()">
+          <span>⚡</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="socials" class="reveal">
+      <div class="section-title">
+        <h2>Social Links</h2>
+        <p>Connect with Pedro online.</p>
+      </div>
+
+      <div class="socials">
+     <a class="social" href="https://discord.gg/YN2shvtXC" target="_blank">
+     💬 Discord
+     </a>
+
+     <a class="social" href="https://www.youtube.com/@PedroFiorelli-1" target="_blank">
+     ▶️ YouTube
+     </a>
+ 
+     <a class="social" href="https://www.tiktok.com/@Pedro_Fiorelli" target="_blank">
+     🎵 TikTok
+     </a>
+
+     <a class="social" href="https://www.facebook.com/YOUR_USERNAME" target="_blank">
+     📘 Facebook
+     </a>
+    </div> 
+    </section>
+
+
+  </main>
+
+  <button class="top" id="topBtn" title="Back to top">↑</button>
+
+  <footer>
+    © <span id="year"></span> Pedro Gaming. All rights reserved.
+  </footer>
+
+  <script>
+    const menu = document.getElementById("menu");
+    const navLinks = document.getElementById("navLinks");
+    const topBtn = document.getElementById("topBtn");
+
+    menu.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+
+    document.querySelectorAll("#navLinks a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("active");
+      });
+    });
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 500) {
+        topBtn.style.display = "grid";
+      } else {
+        topBtn.style.display = "none";
+      }
+    });
+
+    topBtn.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      });
+    }, {
+      threshold: 0.12
+    });
+
+    document.querySelectorAll(".reveal").forEach(element => {
+      observer.observe(element);
+    });
+
+    function galleryMessage() {
+      alert("Replace this gallery box with your own gaming screenshot!");
+    }
+  </script>
+
+</body>
+</html>
